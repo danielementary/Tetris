@@ -41,3 +41,6 @@ while continuer:
                 if event.type == QUIT:
                     fenetre = pygame.display.quit()
                     continuer = False
+
+
+
