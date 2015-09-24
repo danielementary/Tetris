@@ -44,8 +44,7 @@ while continuer:
       
     #commandes    
     if menu == 2:
-        while 1:
-            pass
+        pass
     
     #inscriptions   
     if menu == 3:
@@ -59,8 +58,7 @@ while continuer:
         
     #meilleurs scores   
     if menu == 5:
-        while 1:
-            pass
+        pass
     
     #nouvelle partie
     if menu == 6:
@@ -74,5 +72,4 @@ while continuer:
     
     for event in pygame.event.get():
         if event.type == QUIT:
-            fenetre = pygame.display.quit()
-            continuer = False
+            quitter()
