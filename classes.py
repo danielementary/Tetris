@@ -7,7 +7,6 @@
 import pygame
 from pygame.locals import *
 
-from tetris import *
 from constantes import *
 from fonctions import *
 
