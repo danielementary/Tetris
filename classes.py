@@ -10,8 +10,8 @@ from pygame.locals import *
 from constantes import *
 
 class Piece(object):
-    #position chaque pièce [x,y]
-    pos = {}
+    #position de référence de chaque pièce [x,y]
+    pos = [5, -3]
 
 
 def tourner(self):

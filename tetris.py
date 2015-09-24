@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-##################################
+#################################
 #Fichier principal du jeu tetris#
-##################################
+#################################
 
 import pygame
 from pygame.locals import *
@@ -21,26 +21,58 @@ pygame.display.flip()
 pygame.font.init()
 
 continuer = True
-menu = 1
+menu = 0
 
 #boucle principale
 while continuer:
     #limitation du rafraîchissement
     pygame.time.Clock().tick(hz)
+    
+    #accueil
+    if menu == 0:
+        #affichage de chaque possibilité
+        for ligne in range(len(texteAcc)):
+            label = policeAcc.render(texteAcc[ligne], 1, bleu_5)
+            fenetre.blit(label, (100, espacement*(1/2 + ligne)))
+        
+        pygame.display.flip()
 
+    #règles
     if menu == 1:
         while 1:
-            #affichage de chaque possibilité
-            for ligne in range(len(texteAcc)):
-                label = policeAcc.render(texteAcc[ligne], 1, bleu_5)
-                fenetre.blit(label, (100, espacement*(1/2 + ligne)))
-            
-            pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    fenetre = pygame.display.quit()
-                    continuer = False
-
-
-
+            pass
+      
+    #commandes    
+    if menu == 2:
+        while 1:
+            pass
+    
+    #inscriptions   
+    if menu == 3:
+        while 1:
+            pass
+    
+    #connexion
+    if menu == 4:
+        while 1:
+            pass
+        
+    #meilleurs scores   
+    if menu == 5:
+        while 1:
+            pass
+    
+    #nouvelle partie
+    if menu == 6:
+        while 1:
+            pass
+    
+    #quitter
+    if menu == 7:
+        while 1:
+            pass
+    
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            fenetre = pygame.display.quit()
+            continuer = False
