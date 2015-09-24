@@ -7,6 +7,10 @@
 import pygame
 from pygame.locals import *
 
+from tetris import *
+from classes import *
+from fonctions import *
+
 #résolution de la fenêtre principales
 #####################################
 

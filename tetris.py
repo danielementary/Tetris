@@ -9,6 +9,7 @@ from pygame.locals import *
 
 from classes import *
 from constantes import *
+from fonctions import *
 
 #initialisation de la fenêtre principale
 fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))

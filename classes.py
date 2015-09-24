@@ -7,7 +7,9 @@
 import pygame
 from pygame.locals import *
 
+from tetris import *
 from constantes import *
+from fonctions import *
 
 class Piece(object):
     #position de référence de chaque pièce [x,y]
