@@ -31,7 +31,7 @@ while continuer:
     
     #accueil
     if menu == 0:
-        afficher(fenetre)
+        afficher_menu(fenetre)
         
         pygame.display.flip()
 
