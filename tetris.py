@@ -31,10 +31,7 @@ while continuer:
     
     #accueil
     if menu == 0:
-        #affichage de chaque possibilité
-        for ligne in range(len(texteAcc)):
-            label = policeAcc.render(texteAcc[ligne], 1, bleu_5)
-            fenetre.blit(label, (100, espacement*(1/2 + ligne)))
+        afficher(fenetre)
         
         pygame.display.flip()
 
@@ -68,8 +65,7 @@ while continuer:
     
     #quitter
     if menu == 7:
-        while 1:
-            pass
+        quitter(continuer)
     
     for event in pygame.event.get():
         if event.type == QUIT:
