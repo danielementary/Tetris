@@ -20,8 +20,15 @@ def tourner(self):
     pass
 
 
-#class Blocs():
-
+class Blocs():
+    def __init__(couleur, coordx, coordy):
+        
+        #coordonnées sont celles du coin supérieur gauche
+        self.coordx=coordx
+        self.coordy=coordy
+        self.couleur=couleur
+        self.cote=40
+        
 #class Barre(Piece):
 
 #class Te(Piece):
