@@ -20,6 +20,8 @@ def tourner(self):
     pass
 
 
+#class Blocs():
+
 #class Barre(Piece):
 
 #class Te(Piece):
