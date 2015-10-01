@@ -4,9 +4,6 @@
 #Constantes pour le jeu tetris#
 ###############################
 
-import pygame
-from pygame.locals import *
-
 from tetris import *
 from classes import *
 from fonctions import *
@@ -33,12 +30,6 @@ texteAcc = []
 for touche, titre in menus.items():
     texteAcc.append("{} - {}".format(touche, titre))
 
-espacement = hauteur_fenetre / len(texteAcc)
-
-#polices
-########
-pygame.font.init()
-policeAcc = pygame.font.SysFont(None, 40)
 
 #couleurs (rgb)
 ###############
@@ -60,18 +51,3 @@ lambda_orange = (232, 131, 25)
 gamma_bleu = (12, 38, 232)
 biais_rouge = (232, 37, 40)
 biais_vert = (39, 255, 46)
-
-
-#position des éléments de l'interface
-#####################################
-
-#rectangles: (posX, posY, largeur, hauteur)
-
-#taille d'une case de la grille virtuelle de jeu en px
-
-cote=40
-
-#canvas où tombent les pièces
-jeuCanPos = (10, cote*10 , cote*20)
-#canvas qui affiche la prochaine pièce
-pieceCanPos = (440, 15, 300, 300)
