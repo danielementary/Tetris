@@ -7,3 +7,6 @@
 from tetris import *
 from classes import *
 from constantes import *
+
+def menu(self):
+    self.title("Menu")

@@ -34,20 +34,20 @@ for touche, titre in menus.items():
 #couleurs (rgb)
 ###############
 
-blanc = (255, 255, 255)
-gris = (200, 200, 200)
-noir = (10, 10, 10)
+blanc = "#255255255"
+gris = "#200200200"
+noir = "#101010"
 
-bleu_1 = (205, 219, 255)
-bleu_2 = (53, 110, 255)
-bleu_3 = (42, 88, 204)
-bleu_4 = (25, 52, 122)
-bleu_5 = (34, 60, 127)
+bleu_1 = "#205219255"
+bleu_2 = "#53110255"
+bleu_3 = "#4288204"
+bleu_4 = "#2552122"
+bleu_5 = "#3460127"
 
-baton_turq = (72, 255, 237)
-cube_jaune = (255, 208, 40)
-te_violet = (140, 60, 255)
-lambda_orange = (232, 131, 25)
-gamma_bleu = (12, 38, 232)
-biais_rouge = (232, 37, 40)
-biais_vert = (39, 255, 46)
+baton_turq = "#72255237"
+cube_jaune = "#25520840"
+te_violet = "#14060255"
+lambda_orange = "#23213125"
+gamma_bleu = "#1238232"
+biais_rouge = "#2323740"
+biais_vert = "#3925546"
