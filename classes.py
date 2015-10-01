@@ -4,9 +4,6 @@
 #Classes pour le jeu tetris#
 ############################
 
-import pygame
-from pygame.locals import *
-
 from tetris import *
 from constantes import *
 from fonctions import *
@@ -65,18 +62,3 @@ class Blocs():
         
     def check_descente(self):
         """retourne TRUE si la case située sous le bloc est vide, FALSE sinon"""
-        
-        
-        
-#class Barre(Piece):
-
-#class Te(Piece):
-
-#class Lambda(Piece):
-
-#class Gamma(Piece):
-
-#class BiaisZ(Piece):
-
-
-#class BiaisS(Piece):
