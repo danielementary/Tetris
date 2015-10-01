@@ -11,8 +11,16 @@ from fonctions import *
 #résolution de la fenêtre principales
 #####################################
 
-largeur_fenetre = 830
-hauteur_fenetre = 770
+largeur_fenetre = 820
+hauteur_fenetre = 780
+
+#résolution du canevas de jeu
+#############################
+
+largeur_canevas = 380
+hauteur_canevas = 760
+
+cote_carre = 38
 
 #fréquence de rafraîchissment
 #############################

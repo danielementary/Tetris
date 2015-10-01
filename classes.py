@@ -35,7 +35,8 @@ class Grille():
             return False
             
     def remplir_case(self, ligne, colonne):
-        """permutte le 0 en 1 à la case souhaitée par ligne et colonne qui commencent a 0"""
+        """permutte le 0 en 1 à la case souhaitée par ligne et colonne qui 
+        commencent a 0"""
         
         self.grille[ligne][colonne]=1
      
@@ -44,7 +45,8 @@ class Grille():
 class Blocs():
     def __init__(self,couleur, numero_ligne, numero_colonne, canevas):
         
-        #coordonnées sont celles du coin supérieur gauche et les numerotations de lignes et colonnes commencent a 0
+        #coordonnées sont celles du coin supérieur gauche et les numerotations 
+        #de lignes et colonnes commencent a 0
         self.ligne=numero_ligne
         self.colonne=self.numero_colonne
         
