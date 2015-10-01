@@ -67,7 +67,11 @@ biais_vert = (39, 255, 46)
 
 #rectangles: (posX, posY, largeur, hauteur)
 
+#taille d'une case de la grille virtuelle de jeu en px
+
+cote=40
+
 #canvas où tombent les pièces
-jeuCanPos = (10, 15, 400, 800)
+jeuCanPos = (10, cote*10 , cote*20)
 #canvas qui affiche la prochaine pièce
 pieceCanPos = (440, 15, 300, 300)
