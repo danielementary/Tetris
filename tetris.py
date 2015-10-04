@@ -10,12 +10,12 @@ from classes import *
 from constantes import *
 from fonctions import *
 
-class Jeu(Tk):
+from classesApp import *
+
+class Application(Tk):
     
-    def __init__(self):
-        Tk.__init__(self)
-        pass
-        
+    jeu = Jeu()
+    jeu.mainloop()
 
 ##### Programme principal #####
-Jeu().mainloop()
+Application().mainloop()

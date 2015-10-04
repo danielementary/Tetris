@@ -11,16 +11,18 @@ from fonctions import *
 #résolution de la fenêtre principales
 #####################################
 
-largeur_fenetre = 820
-hauteur_fenetre = 780
+largeur_fenetre = 840
+hauteur_fenetre = 900
+
+geometry = "{}x{}".format(largeur_fenetre, hauteur_fenetre)
 
 #résolution du jeu
 ##################
 
-largeur_canevas = 380
-hauteur_canevas = 760
+largeur_canevas = 400
+hauteur_canevas = 880
 
-cote_carre = 38
+cote_carre = 40
 
 #fréquence de rafraîchissment
 #############################
@@ -48,3 +50,4 @@ noir = "#101010"
 
 fondPrincipal = "light sky blue"
 fondCadres = "light yellow"
+

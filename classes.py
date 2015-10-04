@@ -22,7 +22,7 @@ class Grille():
         
         self.grille=[]
         
-        for i in range(20):
+        for i in range(22):
             self.grille.append([0,0,0,0,0,0,0,0,0,0])
     
     def check_vide(self,ligne, colonne):
@@ -66,7 +66,7 @@ class Blocs():
     def check_descente(self):
         """retourne TRUE si la case située sous le bloc est vide, FALSE sinon"""
         
-        if self.grille[self.ligne+1][self.colonne]!=0:
+        if self.grille[self.ligne+1][self.colonne]!=0n and self.ligne+1<22:
             return False
         else:
             return True
@@ -76,13 +76,13 @@ class Blocs():
         est vide FALSE sinon"""
         
         if sens == "d":
-            if self.grille[self.ligne][self.colonne+1]!=0:
+            if self.grille[self.ligne][self.colonne+1]!=0 and self.colonne<10:
                 return True
             else:
                 False
                 
         if sens=="g":
-            if self.grille[self.ligne][self.colonne-1]!=0:
+            if self.grille[self.ligne][self.colonne-1]!=0 and self.colonne>=0:
                 return True
             else:
                 False
