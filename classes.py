@@ -60,7 +60,30 @@ class Blocs():
         self.can=canevas
         
         
-        self.can.create_rectangle(self.coordx, self.coordy, self.coordx + self.cote, self.coordy + self.cote, fill=self.couleur)
+        self.can.create_rectangle(self.coordx, self.coordy, self.coordx + 
+        self.cote, self.coordy + self.cote, fill=self.couleur)
         
     def check_descente(self):
         """retourne TRUE si la case située sous le bloc est vide, FALSE sinon"""
+        
+        if self.grille[self.ligne+1][self.colonne]!=0:
+            return False
+        else:
+            return True
+            
+    def check_lateral(self, sens):
+        """return TRUE si la case a "sens" ("g" pour gauche ou "d" pour droite)
+        est vide FALSE sinon"""
+        
+        if sens == "d":
+            if self.grille[self.ligne][self.colonne+1]!=0:
+                return True
+            else:
+                False
+                
+        if sens=="g":
+            if self.grille[self.ligne][self.colonne-1]!=0:
+                return True
+            else:
+                False
+        

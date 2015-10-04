@@ -14,10 +14,8 @@ class Jeu(Tk):
     
     def __init__(self):
         Tk.__init__(self)
-        self.canevas = Canvas(self, bg=gris, height=hauteur_fenetre, 
-                                width=largeur_fenetre)
-        print(largeur_fenetre, hauteur_fenetre)
-        menu(self)
+        pass
+        
 
 ##### Programme principal #####
 Jeu().mainloop()
