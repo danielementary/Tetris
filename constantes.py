@@ -50,4 +50,3 @@ noir = "#101010"
 
 fondPrincipal = "light sky blue"
 fondCadres = "light yellow"
-

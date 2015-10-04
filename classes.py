@@ -66,7 +66,7 @@ class Blocs():
     def check_descente(self):
         """retourne TRUE si la case située sous le bloc est vide, FALSE sinon"""
         
-        if self.grille[self.ligne+1][self.colonne]!=0n and self.ligne+1<22:
+        if self.grille[self.ligne+1][self.colonne]!=0 and self.ligne+1<22:
             return False
         else:
             return True
@@ -86,4 +86,3 @@ class Blocs():
                 return True
             else:
                 False
-        
