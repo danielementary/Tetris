@@ -4,25 +4,27 @@
 #Constantes pour le jeu tetris#
 ###############################
 
-from tetris import *
-from classes import *
+from tkinter import *
+
+from classesApp import *
+#from classes import *
 from fonctions import *
 
 #résolution de la fenêtre principales
 #####################################
 
-largeur_fenetre = 840
-hauteur_fenetre = 900
+largeur_fenetre = 600
+hauteur_fenetre = 560
 
 geometry = "{}x{}".format(largeur_fenetre, hauteur_fenetre)
 
 #résolution du jeu
 ##################
 
-largeur_canevas = 400
-hauteur_canevas = 880
+largeur_canevas = 260
+hauteur_canevas = 572
 
-cote_carre = 40
+cote_carre = 26
 
 #fréquence de rafraîchissment
 #############################

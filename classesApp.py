@@ -6,9 +6,9 @@
 
 from tkinter import *
 
-from classes import *
-from constantes import *
+#from classes import *
 from fonctions import *
+from constantes import *
 
 class Jeu(Tk):
     

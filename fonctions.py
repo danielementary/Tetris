@@ -4,6 +4,8 @@
 #Fonctions pour le jeu tetris#
 ##############################
 
-from tetris import *
-from classes import *
+from tkinter import *
+
+from classesApp import *
+#from classes import *
 from constantes import *
