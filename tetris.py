@@ -12,8 +12,16 @@ from fonctions import *
 
 from classesApp import *
 
-jeu = Jeu(fondPrincipal=fondPrincipal, geometry=geometry,
-          largeur_canevas=largeur_canevas,
-          hauteur_canevas=hauteur_canevas,
-          fondCadres=fondCadres)
-jeu.mainloop()
+menu = 6
+
+if menu == 0:
+    accueil = Accueil(fondPrincipal=fondPrincipal, geometry=geometry,
+                      texteMenus=texteMenus)
+    accueil.mainloop()
+    
+if menu == 6:
+    jeu = Jeu(fondPrincipal=fondPrincipal, geometry=geometry,
+                largeur_canevas=largeur_canevas,
+                hauteur_canevas=hauteur_canevas,
+                fondCadres=fondCadres)
+    jeu.mainloop()

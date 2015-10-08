@@ -38,9 +38,9 @@ menus = {0: "accueil", 1: "règles", 2: "commandes", 3: "inscription",
          4: "connexion", 5: "meilleurs scores", 6: "nouvelle partie",
          7: "quitter"}
 
-texteAcc = []
+texteMenus = []
 for touche, titre in menus.items():
-    texteAcc.append("{} - {}".format(touche, titre))
+    texteMenus.append("{} - {}".format(touche, titre))
 
 
 #couleurs (rgb)

@@ -51,3 +51,13 @@ class Jeu(FenetreGrande):
 
         self.boutonPause = BoutonJeu(master=self, text="Pause")
         self.boutonPause.grid(row=2, column=3, pady=30)
+
+class Accueil(FenetreGrande):
+    
+    def __init__(self, fondPrincipal, geometry, texteMenus):
+        FenetreGrande.__init__(self, fondPrincipal, geometry)
+
+        for menu in range(1, len(texteMenus)):
+            BoutonJeu(master=self, text=texteMenus[menu], width=30,
+                      height=2).grid(row=(menu-1)//2, column=(menu-1)%2,
+                                     padx=25, pady=25)
