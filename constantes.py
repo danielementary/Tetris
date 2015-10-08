@@ -16,7 +16,7 @@ from fonctions import *
 largeur_fenetre = 600
 hauteur_fenetre = 560
 
-geometry = "{}x{}".format(largeur_fenetre, hauteur_fenetre)
+geometry = "{}x{}+400+100".format(largeur_fenetre, hauteur_fenetre)
 
 #résolution du jeu
 ##################
