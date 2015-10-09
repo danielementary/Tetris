@@ -13,16 +13,16 @@ from fonctions import *
 #résolution de la fenêtre principales
 #####################################
 
-largeur_fenetre = 600
-hauteur_fenetre = 560
+largeur_fenetre = 680
+hauteur_fenetre = 680
 
 geometry = "{}x{}+400+100".format(largeur_fenetre, hauteur_fenetre)
 
 #résolution du jeu
 ##################
 
-largeur_canevas = 260
-hauteur_canevas = 572
+largeur_canevas = 330
+hauteur_canevas = 660
 
 cote_carre = 26
 
