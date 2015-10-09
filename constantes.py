@@ -52,6 +52,7 @@ noir = "black"
 
 fondPrincipal = "dark slate blue"
 fondCadres = "ivory"
+couleur_bouton = "navy"
 
 couleur_barre = "turquoise1"
 couleur_carre = "yellow"

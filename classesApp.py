@@ -17,9 +17,9 @@ from constantes import *
 class BoutonJeu(Button):
     "Bouton de fantaisie : vert virant au rouge quand on l'actionne"
     def __init__(self, **Arguments):
-        Button.__init__(self, bg ="blue", fg ="white", bd =5,
-                        activebackground ="dark blue", activeforeground="white",
-                        font =('Helvetica', 12), **Arguments)
+        Button.__init__(self, bg="navy", fg="white", bd=5,
+                        activebackground="navy", activeforeground="white",
+                        font =('Helvetica', 10), **Arguments)
 
 
 class FenetreGrande(Tk):
