@@ -43,12 +43,20 @@ for touche, titre in menus.items():
     texteMenus.append("{} - {}".format(touche, titre))
 
 
-#couleurs (rgb)
-###############
+#couleurs
+#########
 
-blanc = "#252525"
-gris = "#202020"
-noir = "#101010"
+blanc = "white"
+gris = "gray"
+noir = "black"
 
-fondPrincipal = "light sky blue"
-fondCadres = "light yellow"
+fondPrincipal = "dark slate blue"
+fondCadres = "ivory"
+
+couleur_barre = "turquoise1"
+couleur_carre = "yellow"
+couleur_te = "purple"
+couleur_lambda = "orange"
+couleur_gamma = "blue"
+couleur_biais = "red"
+couleur_biaisi = "green"

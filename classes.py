@@ -36,15 +36,17 @@ class Grille():
         else:
             return False
             
-    def remplir_case(self, ligne, colonne):
-        """permutte le 0 en 1 à la case souhaitée par ligne et colonne qui 
-        commencent a 0"""
+    def remplir_case(self, ligne, colonne, couleur):
+        """permutte le 0 en 1,2,3,4,5 ou 6 en fct de la couleur
+        à la case souhaitée par ligne et colonne dont la numérotation
+        commence a 0"""
         
-        self.grille[ligne][colonne]=1
+        self.grille[ligne][colonne]=couleur
      
 
 
-class Blocs():
+class Bloc():
+    
     def __init__(self,couleur, ligne, colonne, canevas):
         
         #coordonnées sont celles du coin supérieur gauche et les numerotations 
@@ -69,7 +71,7 @@ class Blocs():
     def check_descente(self):
         """retourne TRUE si la case située sous le bloc est vide, FALSE sinon"""
         
-        if self.grille[self.ligne+1][self.colonne]!=0 and self.ligne+1<22:
+        if self.grille[self.ligne+1][self.colonne]!=0 or self.ligne+1>22:
             return False
         else:
             return True
@@ -79,16 +81,16 @@ class Blocs():
         est vide FALSE sinon"""
         
         if sens == "d":
-            if self.grille[self.ligne][self.colonne+1]!=0 and self.colonne<10:
-                return True
+            if self.grille[self.ligne][self.colonne+1]!=0 or self.colonne>=10:
+                return False
             else:
-                False
+                True
                 
         if sens=="g":
-            if self.grille[self.ligne][self.colonne-1]!=0 and self.colonne>=0:
-                return True
+            if self.grille[self.ligne][self.colonne-1]!=0 or self.colonne<0:
+                return False
             else:
-                False
+                True
         
     def descente(self):
         
@@ -121,4 +123,5 @@ class T():
         
         if sens == 2:
             pass
+        
             #if grille[self.bloc_reference.ligne-1][self.bloc_reference.colonne]==0 and self.bloc_reference.ligne > 0:
