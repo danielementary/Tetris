@@ -1,27 +1,37 @@
 # -*- coding: utf-8 -*-
 
-#################################
-#Fichier principal du jeu tetris#
-#################################
+###############################
+# Fichier de lancement du jeu #
+###############################
 
-from tkinter import *
+#importations
+#############
 
-#from classes import *
+import os
+import sqlite3
 from constantes import *
-from fonctions import *
+from requetes import *
+from tkinter import *
+from fonctionsConnexion import *
+import sys
+sys.path.insert(0, "classesMenu") 						#modification du chemin relatif
+from accueil import *
 
-from classesApp import *
+#création de la base de données
+###############################
 
-menu = 6
+if not os.path.isfile(fichierDB):                       #création s'il n'éxiste pas du fichier de BD
+    conn, cur = connexionDB(fichierDB)                  #connexion à la BD
+    executeurDeRequetes(cur, [reqPlayer, reqScore], 0)  #remplissage de la BD
+    deconnexionDB(conn, cur)                            #déconnexion de la BD
 
-if menu == 0:
-    accueil = Accueil(fondPrincipal=fondPrincipal, geometry=geometry,
-                      texteMenus=texteMenus)
-    accueil.mainloop()
-    
-if menu == 6:
-    jeu = Jeu(fondPrincipal=fondPrincipal, geometry=geometry,
-                largeur_canevas=largeur_canevas,
-                hauteur_canevas=hauteur_canevas,
-                fondCadres=fondCadres)
-    jeu.mainloop()
+#création de l'accueil
+######################
+
+
+deconnexion(fichierJoueur)                              #déconnexion du joueur éventuellement connectée avant le lancement du jeu
+
+joueur = nomJoueur(fichierJoueur)                       #connexion du joueur (aucun joueur)
+
+Accueil(geometry=geometry,texteMenus=majListe(joueur),  #création de l'Accueil
+        pseudoJoueur=majEntete(joueur)).mainloop()

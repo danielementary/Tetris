@@ -4,60 +4,92 @@
 #Constantes pour le jeu tetris#
 ###############################
 
+#importations
+#############
 from tkinter import *
-
-from classesApp import *
-#from classes import *
-from fonctions import *
+from fonctionsConnexion import *
 
 #résolution de la fenêtre principales
 #####################################
 
-largeur_fenetre = 680
-hauteur_fenetre = 680
+def obtenirDimensions(dim):
+    """obtenirDimensions(string dim) --> hauteur ou largeur de l'écran selon <dim>
+    utile pour centrer la fenêtre de jeu sur les différents écrans
+    """
+    fenetre = Tk()                                  #création d'une fenête invisible
+    if dim == "h":
+        resultat = fenetre.winfo_screenheight()
+    elif dim == "l":
+        resultat = fenetre.winfo_screenwidth()
 
-geometry = "{}x{}+400+100".format(largeur_fenetre, hauteur_fenetre)
+    fenetre.destroy()
+    return resultat
+
+#dimensions fenêtre standard
+############################
+
+hauteur = 570
+largeur = 480
+
+#estimation de la meilleure position de la fenêtre
+##################################################
+
+hauteurCoin = int((obtenirDimensions("h")-hauteur)/10)
+largeurCoin = int((obtenirDimensions("l")-largeur)/3)
+
+geometry = "{}x{}+{}+{}".format(largeur, hauteur, largeurCoin, hauteurCoin)
+
+#résolution de la fenêtre secondaire
+####################################
+
+largeur_fenetrePetite = 250
+hauteur_fenetrePetite = 300
+geometryPetite = "{}x{}+{}+{}".format(largeur_fenetrePetite, hauteur_fenetrePetite, largeurCoin+largeur+5, hauteurCoin)
 
 #résolution du jeu
 ##################
 
-largeur_canevas = 330
-hauteur_canevas = 660
+cote_carre = 25
 
-cote_carre = 26
+largeur_canevas = cote_carre*10+1
+hauteur_canevas = cote_carre*22
 
-#fréquence de rafraîchissment
-#############################
+hauteurCanPieces = 180
+largeurCanPieces = cote_carre*6
 
-hz = 60
+#fichiers
+#########
 
-#dictionnaire de menus
-######################
+fichierDB = "BaseDeDonnees.sq3"
+fichierJoueur = "joueur.txt"
 
-menus = {0: "accueil", 1: "règles", 2: "commandes", 3: "inscription",
-         4: "connexion", 5: "meilleurs scores", 6: "nouvelle partie",
-         7: "quitter"}
+#commandes
+##########
 
-texteMenus = []
-for touche, titre in menus.items():
-    texteMenus.append("{} - {}".format(touche, titre))
-
+texteCommandes = [
+("Flèche haute", "Tourner la pièce"),
+("Flèches bas", "Accélérer la chute"),
+("Flèche gauche", "Déplacer la pièce vers la gauche"),
+("Flèche droite", "Déplacer la pièce vers la droite"),
+("Espace", "Faire tomber la pièce d'un coup"),
+("Escape", "Mettre le jeu en pause"),
+("m", "Lance ou coupe la musique")
+]
 
 #couleurs
 #########
 
+bgCouleur="white"
 blanc = "white"
 gris = "gray"
 noir = "black"
-
 fondPrincipal = "dark slate blue"
 fondCadres = "ivory"
 couleur_bouton = "navy"
-
 couleur_barre = "turquoise1"
 couleur_carre = "yellow"
 couleur_te = "purple"
 couleur_lambda = "orange"
 couleur_gamma = "blue"
-couleur_biais = "red"
-couleur_biaisi = "green"
+couleur_S = "red"
+couleur_Z = "green"

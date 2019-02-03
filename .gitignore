@@ -1,0 +1,4 @@
+*.sq3
+*.txt
+**/__pycache__/*
+.DS_Store
