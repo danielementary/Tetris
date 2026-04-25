@@ -22,10 +22,9 @@ if not os.path.isfile(fichierDB):                       #création s'il n'éxist
 #création de l'accueil
 ######################
 
-
 deconnexion(fichierJoueur)                              #déconnexion du joueur éventuellement connectée avant le lancement du jeu
 
-jouerDeLaMusique()
+jouerDeLaMusique()                                      #jouer de la musique
 
-Accueil(geometry=geometry,texteMenus=majListe(None),  #création de l'Accueil
+Accueil(geometry=geometry,texteMenus=majListe(None),    #création de l'Accueil
         pseudoJoueur=majEntete(None)).mainloop()

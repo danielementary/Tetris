@@ -52,7 +52,6 @@ class Accueil(FenetreGrande):
         self.bind('<Down>', self.descendreCurseur)
         self.bind('<Up>', self.monterCurseur)
         self.bind('<Return>', self.menu)
-        self.bind('<Button-1>', self.alerte)
 
     def descendreCurseur(self, event):
         """descend le curseur de 1 dans le menu"""
@@ -73,10 +72,6 @@ class Accueil(FenetreGrande):
             self.ligneCurseur = len(self.texteMenus)
         self.curseur.grid(row=self.ligneCurseur, column=0)
         self.curseur.update()
-
-    def alerte(self, event):
-        """affiche une pop up indiquant d'utiliser le clavier"""
-        showinfo("Matériel", "Les flèches du clavier sont plus utiles que la souris ! (Et ça fait pro ;) )")
 
     def majContenu(self):
         """mets à jour les possibilitées de menus selon la connexion"""
