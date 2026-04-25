@@ -5,13 +5,8 @@
 ###################
 
 from tkinter import *
-
-import sys
-sys.path.insert(0, "..")
-
 from constantes import *
-
-from classesModifiees import FenetrePetite
+from .classesModifiees import FenetrePetite
 
 class Commandes(FenetrePetite):
 

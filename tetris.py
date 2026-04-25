@@ -8,14 +8,8 @@
 #############
 
 import os
-import sqlite3
 from constantes import *
-from requetes import *
-from tkinter import *
-from fonctionsConnexion import *
-import sys
-sys.path.insert(0, "classesMenu") 						#modification du chemin relatif
-from accueil import *
+from classesMenu.accueil import Accueil
 
 #création de la base de données
 ###############################
@@ -31,7 +25,7 @@ if not os.path.isfile(fichierDB):                       #création s'il n'éxist
 
 deconnexion(fichierJoueur)                              #déconnexion du joueur éventuellement connectée avant le lancement du jeu
 
-joueur = nomJoueur(fichierJoueur)                       #connexion du joueur (aucun joueur)
+jouerDeLaMusique()
 
-Accueil(geometry=geometry,texteMenus=majListe(joueur),  #création de l'Accueil
-        pseudoJoueur=majEntete(joueur)).mainloop()
+Accueil(geometry=geometry,texteMenus=majListe(None),  #création de l'Accueil
+        pseudoJoueur=majEntete(None)).mainloop()

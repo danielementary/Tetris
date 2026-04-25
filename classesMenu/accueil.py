@@ -7,16 +7,13 @@
 from tkinter import *
 from tkinter.messagebox import *
 
-from classesModifiees import *
-from commandes import *
-from connexion import *
-from inscription import *
-from jeu import *
-from meilleursScores import *
-from regles import *
-
-import sys
-sys.path.insert(0, "..")
+from .classesModifiees import *
+from .commandes import *
+from .connexion import *
+from .inscription import *
+from .jeu import *
+from .meilleursScores import *
+from .regles import *
 
 from constantes import *
 from fonctionsConnexion import *

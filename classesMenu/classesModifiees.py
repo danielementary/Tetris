@@ -5,10 +5,6 @@
 ##################################
 
 from tkinter import *
-
-import sys
-sys.path.insert(0, "..")
-
 from constantes import *
 
 #classes modifiées

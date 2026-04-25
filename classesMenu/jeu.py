@@ -8,20 +8,10 @@ from tkinter import *
 from tkinter.messagebox import *
 from random import randint
 import time
-
-from classesModifiees import FenetreGrande
-
-import sys
-sys.path.insert(0, "..")
-
+from .classesModifiees import FenetreGrande
 from constantes import *
 from fonctionsConnexion import *
 from requetes import *
-
-#import winsound
-
-sys.path.insert(0, "pieces")
-
 from pieces import *
 
 
@@ -30,13 +20,8 @@ class Jeu(FenetreGrande):
     def __init__(self, geometry, pseudoJoueur, **Arguments):
         FenetreGrande.__init__(self, geometry, pseudoJoueur, **Arguments)
 
-
         self.grille_jeu = Grille()
         self.flag= 1
-
-        self.flagMusique=1
-
-        #self.PlayMusic()        
 
         self.timer = 600
         self.oldTimer = self.timer
@@ -95,26 +80,6 @@ class Jeu(FenetreGrande):
 
 
         self.jeu()
-
-
-    def PlayMusic(self):
-        """joue la musique"""
-        #winsound.PlaySound("classesMenu/Tetris", winsound.SND_ASYNC|winsound.SND_LOOP)
-
-
-    def StopMusic(self):
-        """arrête la musique"""
-        #winsound.PlaySound(None,0)
-
-    def music(self, event):
-        """arrête la musique si elle est en cours ou l'inverse"""
-        if self.flagMusique==1:
-            self.flagMusique=0
-            self.StopMusic()
-        else:
-            self.flagMusique=1
-            self.PlayMusic()
-
 
     def descendreAppui(self,event):
         if self.flag == 1:

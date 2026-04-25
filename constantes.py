@@ -9,6 +9,8 @@
 from tkinter import *
 from fonctionsConnexion import *
 
+import pygame
+
 #résolution de la fenêtre principales
 #####################################
 
@@ -37,7 +39,7 @@ largeur = 480
 hauteurCoin = int((obtenirDimensions("h")-hauteur)/10)
 largeurCoin = int((obtenirDimensions("l")-largeur)/3)
 
-geometry = "{}x{}+{}+{}".format(largeur, hauteur, largeurCoin, hauteurCoin)
+geometry = "{}x{}+{}+{}".format(640, 480, 0, 0)
 
 #résolution de la fenêtre secondaire
 ####################################
@@ -93,3 +95,11 @@ couleur_lambda = "orange"
 couleur_gamma = "blue"
 couleur_S = "red"
 couleur_Z = "green"
+
+
+def jouerDeLaMusique():
+    pygame.mixer.init()
+    print(pygame.mixer.get_init())
+    pygame.mixer.music.load("classesMenu/Tetris.wav")
+    pygame.mixer.music.play(-1)
+

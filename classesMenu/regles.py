@@ -5,8 +5,7 @@
 ################
 
 from tkinter import *
-
-from classesModifiees import FenetrePetite
+from .classesModifiees import FenetrePetite
 
 class Regles(FenetrePetite):
 

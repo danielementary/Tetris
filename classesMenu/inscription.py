@@ -6,12 +6,7 @@
 
 from tkinter import *
 from tkinter.messagebox import *
-
-from classesModifiees import FenetrePetite
-
-import sys
-sys.path.insert(0, "..")
-
+from .classesModifiees import FenetrePetite
 from constantes import *
 from fonctionsConnexion import *
 from requetes import *
