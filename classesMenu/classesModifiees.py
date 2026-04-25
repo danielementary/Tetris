@@ -4,6 +4,7 @@
 #Classes principales pour le jeu #
 ##################################
 
+import platform
 from tkinter import *
 from constantes import *
 
@@ -18,6 +19,8 @@ class FenetreGrande(Tk):
         self.resizable(width=FALSE, height=FALSE)
         self.title(pseudoJoueur)
         self.tk_setPalette(background="light sky blue", foreground="black")
+        if platform.system() == 'Linux':
+            self.wm_attributes('-fullscreen', True)
 
 class FenetrePetite(Toplevel):
 
