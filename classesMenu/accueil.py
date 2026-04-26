@@ -41,8 +41,8 @@ class Accueil(FenetreGrande):
         self.bind('<Up>', self.monterCurseur)
         self.bind('<a>', self.menu)
 
-    def menus(self):
-        joueur = self.joueur or "?"
+    def _menus(self):
+        joueur = self.joueur
         return [
             f"Jouer ({joueur})",
             "Joueurs",
@@ -53,35 +53,35 @@ class Accueil(FenetreGrande):
         ]
 
     def _construireMenu(self):
-        for i, texte in enumerate(self.menus()):
+        for i, texte in enumerate(self._menus()):
             self.lignesMenu[i] = Label(master=self.canMenu, text=texte, font=('Helvetica', 20), width=20, anchor='w')
             self.lignesMenu[i].grid(row=i, column=1, pady=15, sticky='w')
 
     def _dessinerCurseur(self):
-        c = cote_carre * 2
-        self.curseur = Canvas(master=self.canMenu, height=c, width=c, 
-                             bg="light sky blue", highlightthickness=0)
+        c = cote_carre * 2 + 2
+        self.curseur = Canvas(master=self.canMenu, height=c, width=c,
+                              bg="black", highlightthickness=0)
         self.curseur.create_rectangle(0,          0,          cote_carre, cote_carre, fill="yellow", outline="black")
-        self.curseur.create_rectangle(cote_carre, 0,          c,          cote_carre, fill="yellow", outline="black")
-        self.curseur.create_rectangle(0,          cote_carre, cote_carre, c,          fill="yellow", outline="black")
-        self.curseur.create_rectangle(cote_carre, cote_carre, c,          c,          fill="yellow", outline="black")
+        self.curseur.create_rectangle(cote_carre, 0,          c - 1,      cote_carre, fill="yellow", outline="black")
+        self.curseur.create_rectangle(0,          cote_carre, cote_carre, c - 1,      fill="yellow", outline="black")
+        self.curseur.create_rectangle(cote_carre, cote_carre, c - 1,      c - 1,      fill="yellow", outline="black")
 
     def _deplacerCurseur(self):
         self.curseur.grid(row=self.ligneCurseur - 1, column=0, padx=10)
         self.curseur.update()
 
     def descendreCurseur(self, event=None):
-        self.ligneCurseur = self.ligneCurseur % len(self.menus()) + 1
+        self.ligneCurseur = self.ligneCurseur % len(self._menus()) + 1
         self._deplacerCurseur()
 
     def monterCurseur(self, event=None):
-        self.ligneCurseur = (self.ligneCurseur - 2) % len(self.menus()) + 1
+        self.ligneCurseur = (self.ligneCurseur - 2) % len(self._menus()) + 1
         self._deplacerCurseur()
 
     def majContenu(self):
         """Met à jour le menu après changement de joueur"""
         self.joueur = joueurConnecte()
-        for i, texte in enumerate(self.menus()):
+        for i, texte in enumerate(self._menus()):
             self.lignesMenu[i].config(text=texte)
 
     def menu(self, event=None):
