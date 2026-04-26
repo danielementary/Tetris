@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from bloc import *
-
-import sys
-sys.path.insert(0, "..")
-sys.path.insert(0, "classesMenu")
+from .bloc import *
 
 class Piece():
     def __init__(self, grille):

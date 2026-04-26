@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from grille import *
-
-import sys
-sys.path.insert(0, "..")
-
 from constantes import *
+from .grille import *
 
 class Bloc():
 

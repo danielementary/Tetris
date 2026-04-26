@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from piece import *
+from .piece import *
 
 dico_pieces = ["", "Te", "Barre", "Lambda", "Carre", "Gamma", "S", "Z"]
 

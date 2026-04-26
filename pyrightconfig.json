@@ -2,6 +2,7 @@
   "pythonVersion": "3.13",
   "extraPaths": [
     "classesMenu"
+    "pieces"
   ],
   "reportMissingImports": "warning",
   "reportMissingModuleSource": "none"

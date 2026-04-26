@@ -12,7 +12,8 @@ from .classesModifiees import FenetreGrande
 from constantes import *
 from fonctionsConnexion import *
 from requetes import *
-from pieces import *
+from pieces.piece import *
+from pieces.pieces import *
 
 
 class Jeu(FenetreGrande):
@@ -62,7 +63,6 @@ class Jeu(FenetreGrande):
         self.bind('<Up>', self.tourner)
         self.bind('<space>', self.descenteDirecte)
         self.bind('<Escape>', self.pause)
-        self.bind('m', self.music)
 
         self.protocol('WM_DELETE_WINDOW', self.quitter)
 
@@ -140,15 +140,12 @@ class Jeu(FenetreGrande):
 
             self.reponse = askquestion("Partie", "Voulez-vous vraiment quitter ?!")
             if self.reponse == "yes":
-                
-                self.StopMusic()
                 self.destroy()
             else:
                 showinfo("Partie", "Alors continuons !")
                 self.pause('<Escape>')
         else:
             showinfo("Partie", "Retour à l'accueil !")
-            self.StopMusic()
             self.destroy()
 
     def majChamps(self):
@@ -231,7 +228,6 @@ class Jeu(FenetreGrande):
         self.reponse = askquestion("Partie", "Voulez-vous rejouer ?!")
 
         if self.reponse == "yes":
-            self.StopMusic()
             self.destroy()
 
             newJeu = Jeu(geometry=geometry, pseudoJoueur=majEntete(nomJoueur(fichierJoueur)))
@@ -239,9 +235,6 @@ class Jeu(FenetreGrande):
             newJeu.mainloop()
         else:
             showinfo("Partie", "Retour à l'accueil !")
-
-            self.StopMusic()
-
             self.destroy()
 
     def pieceSuivante(self):
