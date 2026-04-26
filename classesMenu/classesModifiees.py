@@ -20,25 +20,26 @@ class FenetreGrande(Tk):
         self.tk_setPalette(background="light sky blue", foreground="black")
         if platform.system() == 'Linux':
             self.overrideredirect(True)
+        self.focus_force()
+        self.lift()
 
 class FenetrePetite(Toplevel):
-    def __init__(self, parent, titre, gridOuPack, **Arguments):
+    def __init__(self, parent, titre, **Arguments):
         Toplevel.__init__(self, parent, **Arguments)
         self.geometry(geometriePetite)
         self.resizable(width=FALSE, height=FALSE)
+        self.configure(bd=5, relief="solid")
         if platform.system() == 'Linux':
             self.overrideredirect(True)
+        self.focus_force()
+        self.lift()
 
-        self.protocol('WM_DELETE_WINDOW', self.quitter)
+        Label(self, text=titre, font=("Helvetica", 30)).pack(side=TOP, pady=10)
 
         self.parent = parent
+        self.parent.peutOuvrir = False
+        self.protocol('WM_DELETE_WINDOW', self.quitter)
         self.bind('<b>', self.quitter)
-
-
-        if gridOuPack == "g":
-            Label(self, text=titre, font=("Helvetica", 20)).grid(column=1, row=1, columnspan=2)
-        else:
-            Label(self, text=titre, font=("Helvetica", 20)).pack(side=TOP, pady=10)
 
     def quitter(self, event=None):
         """fonction destroy modifiée pour remettre peutOuvrir à true quand on ferme une fenêtre satellite"""

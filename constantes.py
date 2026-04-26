@@ -15,7 +15,7 @@ hauteurEcran = 480
 geometrieFenetre = "{}x{}+{}+{}".format(largeurEcran, hauteurEcran, 0, 0)
 
 largeurPetite = 400
-hauteurPetite = 300
+hauteurPetite = 335
 geometriePetite = "{}x{}+{}+{}".format(largeurPetite, hauteurPetite, 120, 90)
 
 #résolution du jeu
@@ -28,18 +28,6 @@ hauteur_canevas = cote_carre*22
 hauteurCanPieces = 180
 largeurCanPieces = cote_carre*6
 
-#commandes
-##########
-
-texteCommandes = [
-("Flèche haute", "Tourner la pièce"),
-("Flèches bas", "Accélérer la chute"),
-("Flèche gauche", "Déplacer la pièce vers la gauche"),
-("Flèche droite", "Déplacer la pièce vers la droite"),
-("Espace", "Faire tomber la pièce d'un coup"),
-("Escape", "Mettre le jeu en pause"),
-("m", "Lance ou coupe la musique")
-]
 
 #couleurs
 #########

@@ -6,56 +6,45 @@
 
 #importations
 #############
+from tkinter import Canvas, Label
 from joueur import joueurConnecte
-
-from tkinter import *
-from tkinter.messagebox import *
-
-from .classesModifiees import *
-from .commandes import *
-from .jeu import *
-from .meilleursScores import *
-from .regles import *
-
-from constantes import *
+from .classesModifiees import FenetreGrande
+from .commandes import Commandes
+from .jeu import Jeu
+from .joueurs import Joueurs
+from .meilleurs import Meilleurs
+from .regles import Regles
+from constantes import cote_carre
 
 class Accueil(FenetreGrande):
     def __init__(self, **Arguments):
         FenetreGrande.__init__(self, **Arguments)
 
-        self.lignesMenu = {}
         self.joueur = joueurConnecte()
+        self.peutOuvrir = True
+        self.ligneCurseur = 1
 
         self.canTitre = Canvas(master=self, height=80, width=640)
         self.canTitre.create_text(320, 40, text="TETRIS", font=('Helvetica', 60))
-        self.canTitre.grid(row=1,column=0, columnspan=2, pady=10)
+        self.canTitre.grid(row=0, column=0, columnspan=2, pady=10)
 
-        self.canMenu = Canvas(master=self, height=480-80, width=640)
-        self.canMenu.grid(row=2, column=1)
+        self.canMenu = Canvas(master=self, height=400, width=640)
+        self.canMenu.grid(row=1, column=0, columnspan=2)
 
-        for i in range(self.nombreMenus()):
-            self.lignesMenu[i] = Label(master=self.canMenu, text=self.menus()[i], font=('Helvetica', 20))
-            self.lignesMenu[i].grid(row=i+1, column=1, pady=15, sticky=W)
+        self.lignesMenu = {}
+        self._construireMenu()
+        self._dessinerCurseur()
 
-        self.ligneCurseur = 1
-
-        self.curseur = Canvas(master=self.canMenu, height=52, width=52)
-        self.curseur.grid(row=self.ligneCurseur, column=0, padx=50)
-
-        self.curseur.create_rectangle(2, 2, 27, 27, fill="yellow")
-        self.curseur.create_rectangle(2, 27, 27, 52, fill="yellow")
-        self.curseur.create_rectangle(27, 2, 52, 27, fill="yellow")
-        self.curseur.create_rectangle(27, 27, 52, 52, fill="yellow")
-
-        self.peutOuvrir = True
+        self._deplacerCurseur()
 
         self.bind('<Down>', self.descendreCurseur)
         self.bind('<Up>', self.monterCurseur)
         self.bind('<a>', self.menu)
 
     def menus(self):
+        joueur = self.joueur or "?"
         return [
-            f"Jouer ({self.joueur})",
+            f"Jouer ({joueur})",
             "Joueurs",
             "Meilleurs",
             "Commandes",
@@ -63,78 +52,53 @@ class Accueil(FenetreGrande):
             "Quitter"
         ]
 
-    def nombreMenus(self):
-        return len(self.menus())
+    def _construireMenu(self):
+        for i, texte in enumerate(self.menus()):
+            self.lignesMenu[i] = Label(master=self.canMenu, text=texte, font=('Helvetica', 20), width=20, anchor='w')
+            self.lignesMenu[i].grid(row=i, column=1, pady=15, sticky='w')
 
-    def descendreCurseur(self, event):
-        """descend le curseur de 1 dans le menu"""
-        if self.ligneCurseur < self.nombreMenus():
-            self.ligneCurseur += 1
-        else:
-            self.ligneCurseur = 1
+    def _dessinerCurseur(self):
+        c = cote_carre * 2
+        self.curseur = Canvas(master=self.canMenu, height=c, width=c, 
+                             bg="light sky blue", highlightthickness=0)
+        self.curseur.create_rectangle(0,          0,          cote_carre, cote_carre, fill="yellow", outline="black")
+        self.curseur.create_rectangle(cote_carre, 0,          c,          cote_carre, fill="yellow", outline="black")
+        self.curseur.create_rectangle(0,          cote_carre, cote_carre, c,          fill="yellow", outline="black")
+        self.curseur.create_rectangle(cote_carre, cote_carre, c,          c,          fill="yellow", outline="black")
 
-        self.curseur.grid(row=self.ligneCurseur, column=0)
+    def _deplacerCurseur(self):
+        self.curseur.grid(row=self.ligneCurseur - 1, column=0, padx=10)
         self.curseur.update()
 
-    def monterCurseur(self, event):
-        """monte le curseur de 1 dans le menu"""
-        if self.ligneCurseur > 1:
-            self.ligneCurseur -= 1
-        else:
-            self.ligneCurseur = self.nombreMenus()
-        self.curseur.grid(row=self.ligneCurseur, column=0)
-        self.curseur.update()
+    def descendreCurseur(self, event=None):
+        self.ligneCurseur = self.ligneCurseur % len(self.menus()) + 1
+        self._deplacerCurseur()
+
+    def monterCurseur(self, event=None):
+        self.ligneCurseur = (self.ligneCurseur - 2) % len(self.menus()) + 1
+        self._deplacerCurseur()
 
     def majContenu(self):
-        """mets à jour les possibilitées de menus selon la connexion"""
-        for menu in range(self.nombreMenus()):
-            self.texteMenus[menu].destroy()
-
+        """Met à jour le menu après changement de joueur"""
         self.joueur = joueurConnecte()
-        self.texteMenus = majListe(self.joueur)
+        for i, texte in enumerate(self.menus()):
+            self.lignesMenu[i].config(text=texte)
 
-        for menu in range(len(self.texteMenus)):
-            self.texteMenus[menu] = Label(master=self.canMenu, text=self.texteMenus[menu], font=('Helvetica', 20))
-            self.texteMenus[menu].grid(row=menu+1, column=1, pady=10, sticky=W)
-
-        self.title(majEntete(self.joueur))
-
-    def menu(self, event):
-        self.menu = self.ligneCurseur-1
-
-        #contrôle qu'aucune fenêtre satellite n'est ouverte
-        if self.peutOuvrir:
-            #selon le curseur on lance le menu correspondant
-            if self.menu == 0:
+    def menu(self, event=None):
+        if not self.peutOuvrir:
+            return
+        match self.ligneCurseur - 1:
+            case 0:
                 self.destroy()
-
-                jeu = Jeu()
-                jeu.focus_force()
-                jeu.mainloop()
-
-                accueil = Accueil()
-                accueil.focus_force()
-                accueil.mainloop()
-
-            elif self.menu == 1:
-                if estConnecte(self.joueur):
-                    deconnexion(fichierJoueur)
-                    self.majContenu()
-                else:
-                    self.peutOuvrir = False
-                    Inscription(self, geometryPetite, "Inscription", "p").focus()
-
-            elif self.menu == 2:
-                self.peutOuvrir = False
-                Regles(self, "Règles", "p").focus()
-
-            elif self.menu == 3:
-                self.peutOuvrir = False
-                Commandes(self, "Commandes", "p").focus()
-
-            elif self.menu == 4:
-                self.peutOuvrir = False
-                MeilleursScores(self, "Meilleurs Scores", "g").focus()
-
-            elif self.menu == 5:
+                Jeu().mainloop()
+                Accueil().mainloop()
+            case 1:
+                Joueurs(self)
+            case 2:
+                Meilleurs(self)
+            case 3:
+                Commandes(self)
+            case 4:
+                Regles(self)
+            case 5:
                 self.destroy()

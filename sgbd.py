@@ -14,15 +14,29 @@ from constantes import listeJoueurs
 ##############################
 fichierDB = "BaseDeDonnees.sq3"
 
+#fonctions du SGBD
+##################
+def connexionDB(fichierDB):
+    """connexionDB(string fichierDB) --> connexion et curseur"""
+    conn = sqlite3.connect(fichierDB)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    return conn, cur
+
+def deconnexionDB(conn, cur):
+    """deconnexionDB(conn, cur) --> None"""
+    conn.commit()
+    cur.close()
+    conn.close()
+
 #fonctions
 ##########
 def creerDB():
     """creerDB() --> None
-    crée la base de données si elle n'existe pas et crée les tables de base de données et peuple la table Player avec la liste de joueurs s'ils ne sont pas dedans
+    crée la base de données si elle n'existe pas et peuple les joueurs manquants
     """
     db_existe = os.path.isfile(fichierDB)
     conn, cur = connexionDB(fichierDB)
-
     if not db_existe:
         cur.execute("""CREATE TABLE Player(
             PlayerID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,32 +51,26 @@ def creerDB():
             PlayerID  INTEGER  NOT NULL,
             FOREIGN KEY (PlayerID) REFERENCES Player(PlayerID)
         )""")
-
     cur.execute("SELECT Pseudo FROM Player")
     existants = [row[0] for row in cur.fetchall()]
     for joueur in listeJoueurs:
         if joueur not in existants:
             cur.execute("INSERT INTO Player(Pseudo) VALUES(?)", (joueur,))
-
     deconnexionDB(conn, cur)
 
-#fonctions du SGBD
-##################
-def connexionDB(fichierDB):
-    """connexionDB(string fichierDB) --> connexion et curseur.
-    ouvre la connexion avec la DB et crée le curseur et change le row_factory
-    """
-    conn = sqlite3.connect(fichierDB)
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-
-    return conn, cur
-
-def deconnexionDB(conn, cur):
-    """deconnexionDB(conn, cur)--> none
-    effectue les modifications et ferme le curseur et la connexion avec la DB
-    """
-    conn.commit()
-    cur.close()
-    conn.close()
-
+def recupererScores():
+    """Récupère le meilleur score de chaque joueur et les classe par ordre décroissant"""
+    conn, cur = connexionDB(fichierDB)
+    resultats = []
+    for joueur in listeJoueurs:
+        cur.execute("""
+            SELECT MAX(Points), Lines FROM Score
+            JOIN Player ON Score.PlayerID = Player.PlayerID
+            WHERE Player.Pseudo = ?
+        """, (joueur,))
+        row = cur.fetchone()
+        points = row[0] if row[0] is not None else 0
+        lignes = row[1] if row[1] is not None else 0
+        resultats.append((joueur, points, lignes))
+    deconnexionDB(conn, cur)
+    return sorted(resultats, key=lambda x: x[1], reverse=True)
