@@ -28,10 +28,8 @@ hauteur_canevas = cote_carre*22
 hauteurCanPieces = 180
 largeurCanPieces = cote_carre*6
 
-
 #couleurs
 #########
-
 bgCouleur="white"
 blanc = "white"
 gris = "gray"
@@ -46,6 +44,4 @@ couleur_lambda = "orange"
 couleur_gamma = "blue"
 couleur_S = "red"
 couleur_Z = "green"
-
-
 

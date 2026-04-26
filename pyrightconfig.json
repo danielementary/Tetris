@@ -5,5 +5,5 @@
     "pieces"
   ],
   "reportMissingImports": "warning",
-  "reportMissingModuleSource": "none"
+  "reportMissingModuleSource": "none",
 }

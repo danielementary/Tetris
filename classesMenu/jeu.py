@@ -15,7 +15,6 @@ from pieces.pieces import *
 
 
 class Jeu(FenetreGrande):
-
     def __init__(self, **Arguments):
         FenetreGrande.__init__(self, **Arguments)
 
