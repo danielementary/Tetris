@@ -4,37 +4,29 @@
 #Constantes pour le jeu tetris#
 ###############################
 
-#importations
-#############
-from tkinter import *
-from fonctionsConnexion import *
+#liste des joueurs
+##################
+listeJoueurs = ["Samuel", "Daniel", "Zénia", "Iwate", "Simon", "Christian", "Nadia", "Invité"]
 
-import pygame
+#dimensions de l'écran et des fenêtres:
+#######################################
+largeurEcran = 640
+hauteurEcran = 480
+geometrieFenetre = "{}x{}+{}+{}".format(largeurEcran, hauteurEcran, 0, 0)
 
-#résolution de l'écran
-######################
-geometry = "{}x{}+{}+{}".format(640, 480, 0, 0)
-
-#résolution de la fenêtre secondaire
-####################################
-geometryPetite = "{}x{}+{}+{}".format(320, 240, 160, 120)
+largeurPetite = 400
+hauteurPetite = 300
+geometriePetite = "{}x{}+{}+{}".format(largeurPetite, hauteurPetite, 120, 90)
 
 #résolution du jeu
 ##################
-
-cote_carre = 25
+cote_carre = 20
 
 largeur_canevas = cote_carre*10+1
 hauteur_canevas = cote_carre*22
 
 hauteurCanPieces = 180
 largeurCanPieces = cote_carre*6
-
-#fichiers
-#########
-
-fichierDB = "BaseDeDonnees.sq3"
-fichierJoueur = "joueur.txt"
 
 #commandes
 ##########
@@ -68,9 +60,4 @@ couleur_S = "red"
 couleur_Z = "green"
 
 
-def jouerDeLaMusique():
-    pygame.mixer.init()
-    print(pygame.mixer.get_init())
-    pygame.mixer.music.load("classesMenu/Tetris.wav")
-    pygame.mixer.music.play(-1)
 

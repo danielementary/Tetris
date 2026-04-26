@@ -7,13 +7,11 @@
 from tkinter import *
 from tkinter.messagebox import *
 from .classesModifiees import FenetrePetite
-from requetes import *
 from constantes import *
 
 class MeilleursScores(FenetrePetite):
-
-    def __init__(self, parent, geometryPetite, titre, gridOuPack, **Arguments):
-        FenetrePetite.__init__(self, parent, geometryPetite, titre, gridOuPack, **Arguments)
+    def __init__(self, parent, titre, gridOuPack, **Arguments):
+        FenetrePetite.__init__(self, parent, titre, gridOuPack, **Arguments)
 
         reqTopDix = """SELECT Pseudo, Points, Lines
                         FROM Score, Player

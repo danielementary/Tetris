@@ -10,16 +10,14 @@ from random import randint
 import time
 from .classesModifiees import FenetreGrande
 from constantes import *
-from fonctionsConnexion import *
-from requetes import *
 from pieces.piece import *
 from pieces.pieces import *
 
 
 class Jeu(FenetreGrande):
 
-    def __init__(self, geometry, pseudoJoueur, **Arguments):
-        FenetreGrande.__init__(self, geometry, pseudoJoueur, **Arguments)
+    def __init__(self, **Arguments):
+        FenetreGrande.__init__(self, **Arguments)
 
         self.grille_jeu = Grille()
         self.flag= 1

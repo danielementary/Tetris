@@ -4,29 +4,27 @@
 #Classes principales pour le jeu #
 ##################################
 
+#importations
+#############
 import platform
-from tkinter import *
-from constantes import *
+from tkinter import Tk, Toplevel, Label, FALSE, TOP
+from constantes import geometrieFenetre, geometriePetite
 
-#classes modifiées
-##################
-
+#classes fenêtres
+#################
 class FenetreGrande(Tk):
-
-    def __init__(self, geometry, pseudoJoueur, **Arguments):
+    def __init__(self, **Arguments):
         Tk.__init__(self, **Arguments)
-        self.geometry(geometry)
+        self.geometry(geometrieFenetre)
         self.resizable(width=FALSE, height=FALSE)
+        self.tk_setPalette(background="light sky blue", foreground="black")
         if platform.system() == 'Linux':
             self.overrideredirect(True)
 
-        self.tk_setPalette(background="light sky blue", foreground="black")
-
 class FenetrePetite(Toplevel):
-
-    def __init__(self, parent, geometryPetite, titre, gridOuPack, **Arguments):
+    def __init__(self, parent, titre, gridOuPack, **Arguments):
         Toplevel.__init__(self, parent, **Arguments)
-        self.geometry(geometryPetite)
+        self.geometry(geometriePetite)
         self.resizable(width=FALSE, height=FALSE)
         if platform.system() == 'Linux':
             self.overrideredirect(True)
