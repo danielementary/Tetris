@@ -11,42 +11,13 @@ from fonctionsConnexion import *
 
 import pygame
 
-#résolution de la fenêtre principales
-#####################################
-
-def obtenirDimensions(dim):
-    """obtenirDimensions(string dim) --> hauteur ou largeur de l'écran selon <dim>
-    utile pour centrer la fenêtre de jeu sur les différents écrans
-    """
-    fenetre = Tk()                                  #création d'une fenête invisible
-    if dim == "h":
-        resultat = fenetre.winfo_screenheight()
-    elif dim == "l":
-        resultat = fenetre.winfo_screenwidth()
-
-    fenetre.destroy()
-    return resultat
-
-#dimensions fenêtre standard
-############################
-
-hauteur = 570
-largeur = 480
-
-#estimation de la meilleure position de la fenêtre
-##################################################
-
-hauteurCoin = int((obtenirDimensions("h")-hauteur)/10)
-largeurCoin = int((obtenirDimensions("l")-largeur)/3)
-
+#résolution de l'écran
+######################
 geometry = "{}x{}+{}+{}".format(640, 480, 0, 0)
 
 #résolution de la fenêtre secondaire
 ####################################
-
-largeur_fenetrePetite = 250
-hauteur_fenetrePetite = 300
-geometryPetite = "{}x{}+{}+{}".format(largeur_fenetrePetite, hauteur_fenetrePetite, largeurCoin+largeur+5, hauteurCoin)
+geometryPetite = "{}x{}+{}+{}".format(320, 240, 160, 120)
 
 #résolution du jeu
 ##################

@@ -26,16 +26,16 @@ class Accueil(FenetreGrande):
         self.joueur = nomJoueur(fichierJoueur)
         self.texteMenus = texteMenus
 
-        self.canTitre = Canvas(master=self, height=130, width=largeur)
-        self.canTitre.create_text(largeur/2, 75, text="Tetris", font=('Helvetica', 90))
+        self.canTitre = Canvas(master=self, height=80, width=640)
+        self.canTitre.create_text(320, 40, text="TETRIS", font=('Helvetica', 60))
         self.canTitre.grid(row=1,column=0, columnspan=2, pady=10)
 
-        self.canMenu = Canvas(master=self, height=hauteur-130, width=largeur)
+        self.canMenu = Canvas(master=self, height=480-80, width=640)
         self.canMenu.grid(row=2, column=1)
 
         for menu in range(len(self.texteMenus)):
             self.texteMenus[menu] = Label(master=self.canMenu, text=self.texteMenus[menu], font=('Helvetica', 20))
-            self.texteMenus[menu].grid(row=menu+1, column=1, pady=10, sticky=W)
+            self.texteMenus[menu].grid(row=menu+1, column=1, pady=15, sticky=W)
 
         self.ligneCurseur = 1
 
@@ -51,7 +51,7 @@ class Accueil(FenetreGrande):
 
         self.bind('<Down>', self.descendreCurseur)
         self.bind('<Up>', self.monterCurseur)
-        self.bind('<Return>', self.menu)
+        self.bind('<a>', self.menu)
 
     def descendreCurseur(self, event):
         """descend le curseur de 1 dans le menu"""

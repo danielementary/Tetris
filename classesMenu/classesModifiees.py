@@ -17,10 +17,10 @@ class FenetreGrande(Tk):
         Tk.__init__(self, **Arguments)
         self.geometry(geometry)
         self.resizable(width=FALSE, height=FALSE)
-        self.title(pseudoJoueur)
-        self.tk_setPalette(background="light sky blue", foreground="black")
         if platform.system() == 'Linux':
-            self.wm_attributes('-fullscreen', True)
+            self.overrideredirect(True)
+
+        self.tk_setPalette(background="light sky blue", foreground="black")
 
 class FenetrePetite(Toplevel):
 
@@ -28,10 +28,13 @@ class FenetrePetite(Toplevel):
         Toplevel.__init__(self, parent, **Arguments)
         self.geometry(geometryPetite)
         self.resizable(width=FALSE, height=FALSE)
+        if platform.system() == 'Linux':
+            self.overrideredirect(True)
+
         self.protocol('WM_DELETE_WINDOW', self.quitter)
 
         self.parent = parent
-        self.bind('<Escape>', self.quitter)
+        self.bind('<b>', self.quitter)
 
 
         if gridOuPack == "g":
@@ -43,3 +46,5 @@ class FenetrePetite(Toplevel):
         """fonction destroy modifiée pour remettre peutOuvrir à true quand on ferme une fenêtre satellite"""
         self.parent.peutOuvrir = True
         self.destroy()
+        self.parent.focus_force()
+        self.parent.lift()
