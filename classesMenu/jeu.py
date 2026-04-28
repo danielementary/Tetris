@@ -7,7 +7,6 @@
 #importations
 #############
 from tkinter import Canvas, ALL
-from tkinter.messagebox import askquestion, showinfo
 from random import randint
 import time
 from .classesModifiees import FenetreGrande
@@ -15,7 +14,6 @@ from constantes import hauteur_canevas, largeur_canevas, hauteurCanPieces, large
 from joueur import joueurConnecte
 from pieces.grille import Grille
 from pieces.pieces import dico_pieces
-
 from sgbd import sauvegarderPartie
 
 class Jeu(FenetreGrande):
@@ -23,7 +21,7 @@ class Jeu(FenetreGrande):
         FenetreGrande.__init__(self, **Arguments)
 
         self.grille_jeu = Grille()
-        self.flag= 1
+        self.flag = 1
 
         self.timer = 600
         self.oldTimer = self.timer
@@ -33,7 +31,7 @@ class Jeu(FenetreGrande):
 
         self.grille_piece_nulle = Grille()
 
-        largeurOptions = largeurEcran - largeur_canevas - 45  # remaining space
+        largeurOptions = largeurEcran - largeur_canevas - 45
 
         self.can_jeu = Canvas(self, bg='black', height=hauteur_canevas, width=largeur_canevas)
         self.can_jeu.grid(column=0, row=0, padx=10, pady=10)
@@ -56,51 +54,54 @@ class Jeu(FenetreGrande):
         self.txtScore = self.canScore.create_text(largeurOptions//2, 40, text=f"Score\n{self.grille_jeu.score}", justify="center")
         self.canScore.grid(column=0, row=3, pady=5)
 
-        self.bind('<KeyPress-Down>', self.descendreAppui)
-        self.bind('<KeyRelease-Down>', self.descendreRelache)
-        self.bind('<Right>', self.laterald)
-        self.bind('<Left>', self.lateralg)
-        self.bind('<a>', self.tourner)
-        self.bind('<b>', self.tourner_antihoraire)
-        self.bind('<x>', self.descenteDirecte)
-        self.bind('<Start>', self.pause)
+        self._bindJeu()
 
         self.protocol('WM_DELETE_WINDOW', self.quitter)
 
-        self.piece_suivante=randint(1, 7)
-        self.piece=eval(dico_pieces[self.piece_suivante])(self.can_jeu, self.grille_jeu)
-        self.piece_suivante=randint(1, 7)
-        self.piece_attente=eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
+        self.piece_suivante = randint(1, 7)
+        self.piece = eval(dico_pieces[self.piece_suivante])(self.can_jeu, self.grille_jeu)
+        self.piece_suivante = randint(1, 7)
+        self.piece_attente = eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
 
-        for i in range(2):
+        for _ in range(2):
             self.piece_attente.lateral('g')
-
-        for i in range(2):
+        for _ in range(2):
             self.piece_attente.descente()
 
         self.jeu()
 
-    def descendreAppui(self,event):
+    def _bindJeu(self):
+        """Bindings normaux du jeu"""
+        self.bind('<KeyPress-Down>',   self.descendreAppui)
+        self.bind('<KeyRelease-Down>', self.descendreRelache)
+        self.bind('<Right>',           self.laterald)
+        self.bind('<Left>',            self.lateralg)
+        self.bind('<a>',               self.tourner)
+        self.bind('<b>',               self.tourner_antihoraire)
+        self.bind('<x>',               self.descenteDirecte)
+        self.bind('<Start>',           self.pause)
+        self.bind('<Select>',          self.quitter)
+
+    def _bindConfirmation(self, oui, non):
+        """Bindings temporaires pour les confirmations"""
+        self.bind('<y>', oui)
+        self.bind('<b>', non)
+
+    def descendreAppui(self, event):
         if self.flag == 1:
             if self.flagEvent == 0:
                 self.flagEvent = 1
                 self.timer = 40
-
         if not self.appuye:
             self.tempsPourScore = time.time()
-
         self.appuye = True
 
-    def descendreRelache(self,event):
+    def descendreRelache(self, event):
         if self.flag == 1 and self.appuye:
             self.flagEvent = 0
             self.timer = self.oldTimer
-
-            if (time.time()-self.tempsPourScore)*(15/2)>16:
-                self.grille_jeu.score+=16
-            else:
-                self.grille_jeu.score+=int((time.time()-self.tempsPourScore)*(15/2))
-
+            elapsed = time.time() - self.tempsPourScore
+            self.grille_jeu.score += min(int(elapsed * 7.5), 16)
             self.majChamps()
             self.appuye = False
 
@@ -120,49 +121,65 @@ class Jeu(FenetreGrande):
         if self.flag == 1:
             self.piece.tourner_antihoraire()
 
-    def pause(self, event):
-        if self.flag==1:
-            self.cacheGrand = self.can_jeu.create_rectangle(1,1, largeur_canevas+2, hauteur_canevas+2, fill="black")
-            self.cachePetit = self.can_piece.create_rectangle(1,1, largeurCanPieces+2, hauteurCanPieces+2, fill="black")
-            self.pauseI = self.can_jeu.create_rectangle(100, 250, 120, 300, fill="light grey")
+    def pause(self, event=None):
+        if self.flag == 1:
+            self.cacheGrand = self.can_jeu.create_rectangle(1, 1, largeur_canevas+2, hauteur_canevas+2, fill="black")
+            self.cachePetit = self.can_piece.create_rectangle(1, 1, largeurCanPieces+2, hauteurCanPieces+2, fill="black")
+            self.pauseI  = self.can_jeu.create_rectangle(100, 250, 120, 300, fill="light grey")
             self.pauseII = self.can_jeu.create_rectangle(130, 250, 150, 300, fill="light grey")
-            self.flag=0
-
-        elif self.flag==0:
+            self.flag = 0
+        elif self.flag == 0:
             self.can_jeu.delete(self.cacheGrand)
             self.can_piece.delete(self.cachePetit)
             self.can_jeu.delete(self.pauseI)
             self.can_jeu.delete(self.pauseII)
-            self.flag=1
+            self.flag = 1
             self.jeu()
 
-    def quitter(self):
-        if self.flag == 1:
-            self.pause('<Escape>')
+    def _afficherConfirmation(self, texte):
+        """Affiche une confirmation sur le canvas"""
+        self.overlayConfirm = self.can_jeu.create_rectangle(
+            1, hauteur_canevas//2 - 60, largeur_canevas+2, hauteur_canevas//2 + 60, fill="black")
+        self.txtConfirm = self.can_jeu.create_text(
+            largeur_canevas//2, hauteur_canevas//2 - 20,
+            text=texte, fill="white", font=('Helvetica', 12), justify="center")
+        self.txtConfirmHint = self.can_jeu.create_text(
+            largeur_canevas//2, hauteur_canevas//2 + 25,
+            text="A = Oui    B = Non", fill="light grey", font=('Helvetica', 10))
 
-            self.reponse = askquestion("Partie", "Voulez-vous vraiment quitter ?!")
-            if self.reponse == "yes":
-                self.destroy()
-            else:
-                showinfo("Partie", "Alors continuons !")
-                self.pause('<Escape>')
-        else:
-            showinfo("Partie", "Retour à l'accueil !")
-            self.destroy()
+    def _cacherConfirmation(self):
+        self.can_jeu.delete(self.overlayConfirm)
+        self.can_jeu.delete(self.txtConfirm)
+        self.can_jeu.delete(self.txtConfirmHint)
+
+    def quitter(self, event=None):
+        self.pause()
+        self._afficherConfirmation("Voulez-vous vraiment quitter ?")
+        self._bindConfirmation(self._confirmerQuitter, self._annulerQuitter)
+
+    def _confirmerQuitter(self, event=None):
+        self._cacherConfirmation()
+        self.destroy()
+
+    def _annulerQuitter(self, event=None):
+        self._cacherConfirmation()
+        self._bindJeu()
+        self.pause()
 
     def majChamps(self):
+        largeurOptions = largeurEcran - largeur_canevas - 45
         self.canNiveau.delete(ALL)
-        self.txtNiveau = self.canNiveau.create_text(75, 50, text="Niveau\n{}".format(self.grille_jeu.niveau), justify="center")
-
+        self.txtNiveau = self.canNiveau.create_text(largeurOptions//2, 40, text=f"Niveau\n{self.grille_jeu.niveau}", justify="center")
         self.canLignes.delete(ALL)
-        self.txtLignes = self.canLignes.create_text(75, 50, text="Lignes\n{}".format(self.grille_jeu.lignes), justify="center")
-
+        self.txtLignes = self.canLignes.create_text(largeurOptions//2, 40, text=f"Lignes\n{self.grille_jeu.lignes}", justify="center")
         self.canScore.delete(ALL)
-        self.txtScore = self.canScore.create_text(75, 50, text="Score\n{}".format(self.grille_jeu.score), justify="center")
+        self.txtScore = self.canScore.create_text(largeurOptions//2, 40, text=f"Score\n{self.grille_jeu.score}", justify="center")
 
-    def gameOver(self):
-        self.gameOver = self.can_jeu.create_rectangle(1,1, largeur_canevas+2, 150, fill="black")
-        self.txtGameOver = self.can_jeu.create_text(largeur_canevas//2, 75, text="GAME OVER", justify="center", font=('Helvetica', 20), fill="white")
+    def afficherGameOver(self):
+        self.rectGameOver = self.can_jeu.create_rectangle(1, 1, largeur_canevas+2, 150, fill="black")
+        self.txtGameOver  = self.can_jeu.create_text(
+            largeur_canevas//2, 75, text="GAME OVER",
+            justify="center", font=('Helvetica', 20), fill="white")
 
     def majCanevas(self):
         self.piece.fixer()
@@ -171,29 +188,22 @@ class Jeu(FenetreGrande):
         self.can_jeu.delete(ALL)
         self.can_piece.delete(ALL)
 
-        while self.grille_jeu.score >= 800*self.grille_jeu.niveau*self.grille_jeu.niveau:
+        while self.grille_jeu.score >= 800 * self.grille_jeu.niveau ** 2:
             self.grille_jeu.niveau += 1
-            if self.timer==40:
-                self.timer=self.oldTimer
-                self.timer *= (7/10)
-                self.timer = int(self.timer)
-                self.oldTimer = self.timer
-                self.timer=40
+            if self.timer == 40:
+                self.timer = self.oldTimer
+                self.oldTimer = int(self.oldTimer * 0.7)
+                self.timer = 40
             else:
-                self.timer *= (7/10)
-                self.timer = int(self.timer)
+                self.timer = int(self.timer * 0.7)
                 self.oldTimer = self.timer
-
 
         self.grille_jeu.afficher(self.can_jeu)
-        self.piece=eval(dico_pieces[self.piece_suivante])(self.can_jeu,self.grille_jeu)
-
+        self.piece = eval(dico_pieces[self.piece_suivante])(self.can_jeu, self.grille_jeu)
         self.majChamps()
 
     def derniereLigneOccupee(self):
-        for nbre in self.grille_jeu.grille[0]:
-            if nbre != 0:
-                return True
+        return any(nbre != 0 for nbre in self.grille_jeu.grille[0])
 
     def enregistrerPartie(self):
         sauvegarderPartie(
@@ -205,70 +215,46 @@ class Jeu(FenetreGrande):
 
     def partiFinie(self):
         self.flag = 0
-
-        self.gameOver()
-        if self.grille_jeu.lignes == 0:
-            self.negALarrache = "n'"
-            self.txtALarrache = "aucune ligne"
-        elif self.grille_jeu.lignes == 1:
-            self.negALarrache = "n'"
-            self.txtALarrache = "qu'1 ligne"
-        else:
-            self.negALarrache = ""
-            self.txtALarrache = "{} lignes".format(self.grille_jeu.lignes)
-
-        showinfo("Partie", "Votre partie est finie !\nVotre score est de {} et vous {}avez abattu {} !".format(self.grille_jeu.score,
-                                                    self.negALarrache,
-                                                    self.txtALarrache
-                                                    ))
-
+        self.afficherGameOver()
         self.enregistrerPartie()
+        self._afficherConfirmation(
+            f"Score: {self.grille_jeu.score} — Lignes: {self.grille_jeu.lignes}\nRejouer ?")
+        self._bindConfirmation(self._confirmerRejouer, self._annulerRejouer)
 
-        self.reponse = askquestion("Partie", "Voulez-vous rejouer ?!")
+    def _confirmerRejouer(self, event=None):
+        self._cacherConfirmation()
+        self.destroy()
+        Jeu().mainloop()
 
-        if self.reponse == "yes":
-            self.destroy()
-
-            newJeu = Jeu(geometry=geometry, pseudoJoueur=majEntete(nomJoueur(fichierJoueur)))
-            newJeu.focus_force()
-            newJeu.mainloop()
-        else:
-            showinfo("Partie", "Retour à l'accueil !")
-            self.destroy()
+    def _annulerRejouer(self, event=None):
+        self._cacherConfirmation()
+        self.destroy()
 
     def pieceSuivante(self):
-        self.piece_suivante=randint(1,7)
-        self.piece_attente=eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
-
-        for i in range(2):
+        self.piece_suivante = randint(1, 7)
+        self.piece_attente  = eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
+        for _ in range(2):
             self.piece_attente.lateral('g')
-
-        for i in range(2):
+        for _ in range(2):
             self.piece_attente.descente()
 
     def descenteDirecte(self, event):
-        while self.piece.check_descente():
-            self.piece.descente_noview()
-
-        self.grille_jeu.score += 10
-        self.majCanevas()
-        self.pieceSuivante()
-
+        if self.flag == 1:
+            while self.piece.check_descente():
+                self.piece.descente_noview()
+            self.grille_jeu.score += 10
+            self.majCanevas()
+            self.pieceSuivante()
 
     def jeu(self):
         if self.flag == 1:
             if self.derniereLigneOccupee():
                 self.partiFinie()
-                return None
-
+                return
             if self.piece.check_descente():
                 self.piece.descente()
-
                 self.after(self.timer, self.jeu)
-
             else:
                 self.majCanevas()
-
                 self.pieceSuivante()
-
                 self.jeu()
