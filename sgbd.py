@@ -74,3 +74,15 @@ def recupererScores():
         resultats.append((joueur, points, lignes))
     deconnexionDB(conn, cur)
     return sorted(resultats, key=lambda x: x[1], reverse=True)
+
+def sauvegarderPartie(niveau, points, lignes, pseudo):
+    """sauvegarderPartie(int niveau, int points, int lignes, string pseudo) --> None
+    enregistre la partie dans la base de données
+    """
+    conn, cur = connexionDB(fichierDB)
+    cur.execute("""
+        INSERT INTO Score(Level, ScoreDate, Points, Lines, PlayerID)
+        VALUES(?, date(), ?, ?,
+            (SELECT PlayerID FROM Player WHERE Pseudo = ?))
+    """, (niveau, points, lignes, pseudo))
+    deconnexionDB(conn, cur)

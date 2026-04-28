@@ -96,3 +96,35 @@ class Piece():
                     if self.positions[self.pos][i][j] :
                         self.blocs[a].deplacer(self.carre_ref_ligne + (i-1), self.carre_ref_colonne + (j-1))
                         a+=1
+
+    def check_tourner_antihoraire(self):
+        """contrôle que les cases pour la rotation anti-horaire soient libres"""
+        if self.pos > 0:
+            pos_precedente = self.pos - 1
+        else:
+            pos_precedente = len(self.positions) - 1
+        for i in range(len(self.positions[pos_precedente])):
+            for j in range(len(self.positions[pos_precedente][i])):
+                if self.positions[pos_precedente][i][j]:
+                    if (self.carre_ref_ligne + (i-1)) < 0 or \
+                            (self.carre_ref_ligne + (i-1)) > 21 or \
+                            (self.carre_ref_colonne + (j-1)) < 0 or \
+                            (self.carre_ref_colonne + (j-1)) > 9:
+                        return False
+                    elif self.grille.grille[(self.carre_ref_ligne + (i-1))][(self.carre_ref_colonne + (j-1))] != 0:
+                        return False
+        return True
+
+    def tourner_antihoraire(self):
+        """fait tourner la pièce dans le sens anti-horaire"""
+        if self.check_tourner_antihoraire():
+            if self.pos > 0:
+                self.pos -= 1
+            else:
+                self.pos = len(self.positions) - 1
+            a = 0
+            for i in range(len(self.positions[self.pos])):
+                for j in range(len(self.positions[self.pos][i])):
+                    if self.positions[self.pos][i][j]:
+                        self.blocs[a].deplacer(self.carre_ref_ligne + (i-1), self.carre_ref_colonne + (j-1))
+                        a += 1

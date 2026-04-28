@@ -5,13 +5,13 @@ from constantes import *
 class Grille():
     def __init__(self):
         self.grille = []            #simulation de la grille par une liste de 9 listes de 9 éléments, 0 pour une case libre, "[couleur]" pour une occupée
+        for _ in range(22):
+            self.grille.append([0,0,0,0,0,0,0,0,0,0])
 
         self.niveau = 1
         self.lignes = 0
         self.score = 0
 
-        for i in range(22):
-            self.grille.append([0,0,0,0,0,0,0,0,0,0])
 
     def remplir_case(self, ligne, colonne, couleur):
         """permutte le 0 en chaine de caractere, etant le nom de la couleur
@@ -32,24 +32,16 @@ class Grille():
 
     def enleve_ligne_pleine(self):
         """enleve toutes les lignes pleines et les remplace par des lignes vides au debut"""
-        i = 0
-        compteur = 0
+        lignes_pleines = [i for i, ligne in enumerate(self.grille) if 0 not in ligne]
+        compteur = len(lignes_pleines)
 
-        while i < len(self.grille):
-            flag = 1
+        if compteur == 0:
+            return
 
-            for j in range(len(self.grille[i])):
-                if self.grille[i][j] == 0:
-                    flag = 0
+        self.grille = [row for row in self.grille if 0 in row]
+        self.grille = [[0] * 10 for _ in range(compteur)] + self.grille
 
-            if flag == 1:
-                del(self.grille[i])
-                self.grille = [[0,0,0,0,0,0,0,0,0,0]]+self.grille
-                compteur += 1
-                i = 0
-                self.lignes += 1
-            else:
-                i += 1
+        self.lignes += compteur
 
         if compteur == 1:
             self.score += 40*self.niveau

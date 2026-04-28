@@ -4,15 +4,19 @@
 #Fenetre de jeu #
 #################
 
-from tkinter import *
-from tkinter.messagebox import *
+#importations
+#############
+from tkinter import Canvas, ALL
+from tkinter.messagebox import askquestion, showinfo
 from random import randint
 import time
 from .classesModifiees import FenetreGrande
-from constantes import *
-from pieces.piece import *
-from pieces.pieces import *
+from constantes import hauteur_canevas, largeur_canevas, hauteurCanPieces, largeurCanPieces, largeurEcran
+from joueur import joueurConnecte
+from pieces.grille import Grille
+from pieces.pieces import dico_pieces
 
+from sgbd import sauvegarderPartie
 
 class Jeu(FenetreGrande):
     def __init__(self, **Arguments):
@@ -27,39 +31,39 @@ class Jeu(FenetreGrande):
         self.flagEvent = 0
         self.appuye = False
 
-        #self.descenteDirecteBool = False
-        self.timerSaute = False
-
         self.grille_piece_nulle = Grille()
 
-        self.can_jeu = Canvas(self, bg='black', height=hauteur_canevas, width=largeur_canevas)
-        self.can_jeu.grid(column=1, row=1, padx=15, pady=10)
+        largeurOptions = largeurEcran - largeur_canevas - 45  # remaining space
 
-        self.can_option = Canvas(self, height=hauteur_canevas, width=170)
-        self.can_option.grid(column=2, row=1, padx=15, pady=10)
+        self.can_jeu = Canvas(self, bg='black', height=hauteur_canevas, width=largeur_canevas)
+        self.can_jeu.grid(column=0, row=0, padx=10, pady=10)
+
+        self.can_option = Canvas(self, height=hauteur_canevas, width=largeurOptions)
+        self.can_option.grid(column=1, row=0, padx=10, pady=10)
 
         self.can_piece = Canvas(self.can_option, bg='black', height=hauteurCanPieces, width=largeurCanPieces)
-        self.can_piece.grid(column=1, row=1, padx=10, pady=0)
+        self.can_piece.grid(column=0, row=0, padx=5, pady=5)
 
-        self.canNiveau = Canvas(self.can_option, height=100, width=150)
-        self.txtNiveau = self.canNiveau.create_text(75, 50, text="Niveau\n{}".format(self.grille_jeu.niveau), justify="center")
-        self.canNiveau.grid(column=1, row=2, pady=10)
+        self.canNiveau = Canvas(self.can_option, height=80, width=largeurOptions-10)
+        self.txtNiveau = self.canNiveau.create_text(largeurOptions//2, 40, text=f"Niveau\n{self.grille_jeu.niveau}", justify="center")
+        self.canNiveau.grid(column=0, row=1, pady=5)
 
-        self.canLignes = Canvas(self.can_option, height=100, width=150)
-        self.txtLignes = self.canLignes.create_text(75, 50, text="Lignes\n{}".format(self.grille_jeu.lignes), justify="center")
-        self.canLignes.grid(column=1, row=3, pady=10)
+        self.canLignes = Canvas(self.can_option, height=80, width=largeurOptions-10)
+        self.txtLignes = self.canLignes.create_text(largeurOptions//2, 40, text=f"Lignes\n{self.grille_jeu.lignes}", justify="center")
+        self.canLignes.grid(column=0, row=2, pady=5)
 
-        self.canScore = Canvas(self.can_option, height=100, width=150)
-        self.txtScore = self.canScore.create_text(75, 50, text="Score\n{}".format(self.grille_jeu.score), justify="center")
-        self.canScore.grid(column=1, row=4, pady=10)
+        self.canScore = Canvas(self.can_option, height=80, width=largeurOptions-10)
+        self.txtScore = self.canScore.create_text(largeurOptions//2, 40, text=f"Score\n{self.grille_jeu.score}", justify="center")
+        self.canScore.grid(column=0, row=3, pady=5)
 
         self.bind('<KeyPress-Down>', self.descendreAppui)
         self.bind('<KeyRelease-Down>', self.descendreRelache)
         self.bind('<Right>', self.laterald)
         self.bind('<Left>', self.lateralg)
-        self.bind('<Up>', self.tourner)
-        self.bind('<space>', self.descenteDirecte)
-        self.bind('<Escape>', self.pause)
+        self.bind('<a>', self.tourner)
+        self.bind('<b>', self.tourner_antihoraire)
+        self.bind('<x>', self.descenteDirecte)
+        self.bind('<Start>', self.pause)
 
         self.protocol('WM_DELETE_WINDOW', self.quitter)
 
@@ -73,8 +77,6 @@ class Jeu(FenetreGrande):
 
         for i in range(2):
             self.piece_attente.descente()
-
-
 
         self.jeu()
 
@@ -102,7 +104,6 @@ class Jeu(FenetreGrande):
             self.majChamps()
             self.appuye = False
 
-
     def laterald(self, event):
         if self.flag == 1:
             self.piece.lateral('d')
@@ -114,6 +115,10 @@ class Jeu(FenetreGrande):
     def tourner(self, event):
         if self.flag == 1:
             self.piece.tourner()
+
+    def tourner_antihoraire(self, event):
+        if self.flag == 1:
+            self.piece.tourner_antihoraire()
 
     def pause(self, event):
         if self.flag==1:
@@ -191,15 +196,12 @@ class Jeu(FenetreGrande):
                 return True
 
     def enregistrerPartie(self):
-        reqSauvePartie = """INSERT INTO Score(Level, ScoreDate, Points, Lines, PlayerID)
-                            VALUES('{}', date(), '{}', '{}',
-                            (SELECT PlayerID FROM Player WHERE Pseudo = '{}'))""".format(self.grille_jeu.niveau,
-                            self.grille_jeu.score, self.grille_jeu.lignes, nomJoueur(fichierJoueur))
-
-        conn, cur = connexionDB(fichierDB)
-        executeurDeRequetes(cur, [reqSauvePartie], 0)
-        deconnexionDB(conn, cur)
-
+        sauvegarderPartie(
+            self.grille_jeu.niveau,
+            self.grille_jeu.score,
+            self.grille_jeu.lignes,
+            joueurConnecte()
+        )
 
     def partiFinie(self):
         self.flag = 0
