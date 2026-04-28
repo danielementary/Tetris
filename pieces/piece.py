@@ -13,7 +13,7 @@ class Piece():
         if self.check_descente():
             for i in range(len(self.blocs)):
                 self.blocs[i].descente()
-                self.carre_ref_ligne += 1
+            self.carre_ref_ligne += 1
 
     def check_descente(self):
         """contrôle que la(es) case(s) sous les blocs de la pièce soient libres, Return True(libres) ou False(occupées)"""
@@ -49,10 +49,10 @@ class Piece():
         if self.check_lateral(sens):
             for i in range(len(self.blocs)):
                 self.blocs[i].lateral(sens)
-        if sens == 'd':
-            self.carre_ref_colonne += 1
-        if sens == 'g':
-            self.carre_ref_colonne -= 1
+            if sens == 'd':
+                self.carre_ref_colonne += 1
+            if sens == 'g':
+                self.carre_ref_colonne -= 1
 
     def fixer(self):
         """fixe chaque bloc de la pièce dans le jeu"""

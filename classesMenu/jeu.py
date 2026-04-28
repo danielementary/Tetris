@@ -15,6 +15,7 @@ from joueur import joueurConnecte
 from pieces.grille import Grille
 from pieces.pieces import dico_pieces
 from sgbd import sauvegarderPartie
+from pieces.pieces import dico_pieces, Te, Barre, Lambda, Carre, Gamma, S, Z
 
 class Jeu(FenetreGrande):
     def __init__(self, **Arguments):
@@ -79,8 +80,8 @@ class Jeu(FenetreGrande):
         self.bind('<a>',               self.tourner)
         self.bind('<b>',               self.tourner_antihoraire)
         self.bind('<x>',               self.descenteDirecte)
-        self.bind('<Start>',           self.pause)
-        self.bind('<Select>',          self.quitter)
+        self.bind('<Escape>',          self.pause)
+        self.bind('<q>',               self.quitter)
 
     def _bindConfirmation(self, oui, non):
         """Bindings temporaires pour les confirmations"""
@@ -145,7 +146,7 @@ class Jeu(FenetreGrande):
             text=texte, fill="white", font=('Helvetica', 12), justify="center")
         self.txtConfirmHint = self.can_jeu.create_text(
             largeur_canevas//2, hauteur_canevas//2 + 25,
-            text="A = Oui    B = Non", fill="light grey", font=('Helvetica', 10))
+            text="Y = Oui    B = Non", fill="light grey", font=('Helvetica', 10))
 
     def _cacherConfirmation(self):
         self.can_jeu.delete(self.overlayConfirm)

@@ -84,9 +84,9 @@ def demarrerManette():
                         elif event.code == e.BTN_EAST:
                             app.after(0, lambda: app.event_generate('b'))
                         elif event.code == e.BTN_SELECT:
-                            app.after(0, lambda: app.event_generate('<Select>'))
+                            app.after(0, lambda: app.event_generate('<q>'))
                         elif event.code == e.BTN_START:
-                            app.after(0, lambda: app.event_generate('<Start>'))
+                            app.after(0, lambda: app.event_generate('<Escape>'))
 
         thread = threading.Thread(target=listen, daemon=True)
         thread.start()
