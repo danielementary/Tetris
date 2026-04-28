@@ -17,8 +17,9 @@ texteCommandes = [
     ("D-pad bas",           "Accélérer la chute"),
     ("A",                   "Tourner dans le sens horaire"),
     ("B",                   "Tourner dans le sens anti-horaire"),
-    ("Start",               "Mettre le jeu en pause"),
-    ("Select",              "Changer de thème"),
+    ("X",                   "Chute directe"),
+    ("SELECT",              "Quitter la partie"),
+    ("START",               "Pause / Reprendre"),
 ]
 
 class Commandes(FenetrePetite):

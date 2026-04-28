@@ -13,9 +13,13 @@ from .classesModifiees import FenetreGrande
 from constantes import hauteur_canevas, largeur_canevas, hauteurCanPieces, largeurCanPieces, largeurEcran
 from joueur import joueurConnecte
 from pieces.grille import Grille
-from pieces.pieces import dico_pieces
-from sgbd import sauvegarderPartie
 from pieces.pieces import dico_pieces, Te, Barre, Lambda, Carre, Gamma, S, Z
+from sgbd import sauvegarderPartie
+
+classes_pieces = {
+    "Te": Te, "Barre": Barre, "Lambda": Lambda,
+    "Carre": Carre, "Gamma": Gamma, "S": S, "Z": Z
+}
 
 class Jeu(FenetreGrande):
     def __init__(self, **Arguments):
@@ -34,13 +38,13 @@ class Jeu(FenetreGrande):
 
         largeurOptions = largeurEcran - largeur_canevas - 45
 
-        self.can_jeu = Canvas(self, bg='black', height=hauteur_canevas, width=largeur_canevas)
+        self.can_jeu = Canvas(self, bg='black', height=hauteur_canevas, width=largeur_canevas, highlightthickness=0, bd=0)
         self.can_jeu.grid(column=0, row=0, padx=10, pady=10)
 
         self.can_option = Canvas(self, height=hauteur_canevas, width=largeurOptions)
         self.can_option.grid(column=1, row=0, padx=10, pady=10)
 
-        self.can_piece = Canvas(self.can_option, bg='black', height=hauteurCanPieces, width=largeurCanPieces)
+        self.can_piece = Canvas(self.can_option, bg='black', height=hauteurCanPieces, width=largeurCanPieces, highlightthickness=0, bd=0)
         self.can_piece.grid(column=0, row=0, padx=5, pady=5)
 
         self.canNiveau = Canvas(self.can_option, height=80, width=largeurOptions-10)
@@ -56,13 +60,12 @@ class Jeu(FenetreGrande):
         self.canScore.grid(column=0, row=3, pady=5)
 
         self._bindJeu()
-
         self.protocol('WM_DELETE_WINDOW', self.quitter)
 
         self.piece_suivante = randint(1, 7)
-        self.piece = eval(dico_pieces[self.piece_suivante])(self.can_jeu, self.grille_jeu)
+        self.piece = classes_pieces[dico_pieces[self.piece_suivante]](self.can_jeu, self.grille_jeu)
         self.piece_suivante = randint(1, 7)
-        self.piece_attente = eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
+        self.piece_attente = classes_pieces[dico_pieces[self.piece_suivante]](self.can_piece, self.grille_piece_nulle)
 
         for _ in range(2):
             self.piece_attente.lateral('g')
@@ -124,10 +127,12 @@ class Jeu(FenetreGrande):
 
     def pause(self, event=None):
         if self.flag == 1:
-            self.cacheGrand = self.can_jeu.create_rectangle(1, 1, largeur_canevas+2, hauteur_canevas+2, fill="black")
-            self.cachePetit = self.can_piece.create_rectangle(1, 1, largeurCanPieces+2, hauteurCanPieces+2, fill="black")
-            self.pauseI  = self.can_jeu.create_rectangle(100, 250, 120, 300, fill="light grey")
-            self.pauseII = self.can_jeu.create_rectangle(130, 250, 150, 300, fill="light grey")
+            self.cacheGrand = self.can_jeu.create_rectangle(0, 0, largeur_canevas, hauteur_canevas, fill="black")
+            self.cachePetit = self.can_piece.create_rectangle(0, 0, largeurCanPieces, hauteurCanPieces, fill="black")
+            cx = largeur_canevas // 2
+            cy = hauteur_canevas // 2
+            self.pauseI  = self.can_jeu.create_rectangle(cx - 30, cy - 25, cx - 10, cy + 25, fill="light grey")
+            self.pauseII = self.can_jeu.create_rectangle(cx + 10, cy - 25, cx + 30, cy + 25, fill="light grey")
             self.flag = 0
         elif self.flag == 0:
             self.can_jeu.delete(self.cacheGrand)
@@ -154,17 +159,21 @@ class Jeu(FenetreGrande):
         self.can_jeu.delete(self.txtConfirmHint)
 
     def quitter(self, event=None):
-        self.pause()
+        if self.flag == 1:
+            self.pause()
+        self.flag = 2
         self._afficherConfirmation("Voulez-vous vraiment quitter ?")
         self._bindConfirmation(self._confirmerQuitter, self._annulerQuitter)
 
     def _confirmerQuitter(self, event=None):
         self._cacherConfirmation()
+        self.enregistrerPartie()
         self.destroy()
 
     def _annulerQuitter(self, event=None):
         self._cacherConfirmation()
         self._bindJeu()
+        self.flag = 0
         self.pause()
 
     def majChamps(self):
@@ -200,7 +209,7 @@ class Jeu(FenetreGrande):
                 self.oldTimer = self.timer
 
         self.grille_jeu.afficher(self.can_jeu)
-        self.piece = eval(dico_pieces[self.piece_suivante])(self.can_jeu, self.grille_jeu)
+        self.piece = classes_pieces[dico_pieces[self.piece_suivante]](self.can_jeu, self.grille_jeu)
         self.majChamps()
 
     def derniereLigneOccupee(self):
@@ -215,7 +224,7 @@ class Jeu(FenetreGrande):
         )
 
     def partiFinie(self):
-        self.flag = 0
+        self.flag = 2
         self.afficherGameOver()
         self.enregistrerPartie()
         self._afficherConfirmation(
@@ -233,7 +242,7 @@ class Jeu(FenetreGrande):
 
     def pieceSuivante(self):
         self.piece_suivante = randint(1, 7)
-        self.piece_attente  = eval(dico_pieces[self.piece_suivante])(self.can_piece, self.grille_piece_nulle)
+        self.piece_attente  = classes_pieces[dico_pieces[self.piece_suivante]](self.can_piece, self.grille_piece_nulle)
         for _ in range(2):
             self.piece_attente.lateral('g')
         for _ in range(2):

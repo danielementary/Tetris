@@ -21,14 +21,13 @@ class Grille():
         self.grille[ligne][colonne] = couleur
 
     def afficher(self, canevas):
-        """affiche le jeu dans le canevas"""
-        for i in range(len(self.grille)):
-            for j in range(len(self.grille[i])):
-                if self.grille[i][j] != 0:
-                    canevas.create_rectangle(j*cote_carre+2, i*cote_carre+1,
-                                            j*cote_carre + cote_carre+2,
-                                            i*cote_carre + cote_carre+1,
-                                            fill=self.grille[i][j])
+        for i, ligne in enumerate(self.grille):
+            for j, cell in enumerate(ligne):
+                if cell != 0:
+                    canevas.create_rectangle(
+                        j * cote_carre,              i * cote_carre,
+                        j * cote_carre + cote_carre, i * cote_carre + cote_carre,
+                        fill=cell, outline="black")
 
     def enleve_ligne_pleine(self):
         """enleve toutes les lignes pleines et les remplace par des lignes vides au debut"""

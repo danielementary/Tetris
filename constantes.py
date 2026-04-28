@@ -22,10 +22,10 @@ geometriePetite = "{}x{}+{}+{}".format(largeurPetite, hauteurPetite, 120, 90)
 ##################
 cote_carre = 20
 
-largeur_canevas = cote_carre*10+1
+largeur_canevas = cote_carre*10
 hauteur_canevas = cote_carre*22
 
-hauteurCanPieces = 180
+hauteurCanPieces = cote_carre*6
 largeurCanPieces = cote_carre*6
 
 #couleurs

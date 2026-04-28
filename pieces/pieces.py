@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .piece import *
+from constantes import couleur_te, couleur_barre, couleur_lambda, couleur_carre, couleur_gamma, couleur_S, couleur_Z
 
 dico_pieces = ["", "Te", "Barre", "Lambda", "Carre", "Gamma", "S", "Z"]
 
@@ -68,6 +69,9 @@ class Carre(Piece):
                     ]
 
     def tourner(self):
+        return None
+
+    def tourner_antihoraire(self):
         return None
 
 class Gamma(Piece):
